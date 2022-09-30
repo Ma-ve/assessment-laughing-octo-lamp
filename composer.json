@@ -1,0 +1,36 @@
+{
+    "name": "ma-ve/assessment-leviy",
+    "require": {
+        "php": "^8.1",
+        "laravel-zero/framework": "^9.2",
+        "nunomaduro/termwind": "^1.14"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.2",
+        "mockery/mockery": "^1.4.4",
+        "pestphp/pest": "^1.21.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "bin": ["assessment-leviy"]
+}
