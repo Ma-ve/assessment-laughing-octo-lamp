@@ -4,54 +4,38 @@ declare(strict_types=1);
 
 namespace App\Commands;
 
+use App\CleaningSchedule\Formatters;
+use App\CleaningSchedule\Generator;
 use App\Commands\Requests\CleaningScheduleRequest;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 use function Termwind\{render};
 
-class CleaningScheduleCommand extends Command
-{
+class CleaningScheduleCommand extends Command {
     /**
      * @var string
      */
     protected $signature = 'cleaning-schedule
                             {months : Amount of months to generate the schedule for (required)}
-                            {--format=csv}';
+                            {--format=csv (allowed values: csv)}
+                            {--date=now} (any datetime parsable string)';
 
     /**
      * @var string
      */
     protected $description = 'Determines the cleaning schedule for the next x months';
 
-    /**
-     * @return mixed
-     */
-    public function handle()
-    {
+    public function handle(): void {
         $request = CleaningScheduleRequest::createFromConsoleCommand($this);
 
-        render(sprintf(
-            <<<'HTML'
-            <div class="py-1 ml-2">
-                <div class="px-1 bg-blue-300 text-black">Generating Cleaning Schedule...</div>
-                <em class="ml-1">
-                  Months: %d, format: %s.
-                </em>
-            </div>
-            HTML,
-            $request->months->months,
-            $request->format->name
-        ));
+        $scheduleCollection = (new Generator($request->dateTime))
+            ->generateSchedule($request->months);
+
+        echo $this->getFormatter($request->format)
+                  ->format($scheduleCollection);
     }
 
-    /**
-     * Define the command's schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
-     */
-    public function schedule(Schedule $schedule)
-    {
-        // $schedule->command(static::class)->everyMinute();
+    private function getFormatter(Requests\CleaningSchedule\Enums\ExportFormat $format) {
+        return new Formatters\Csv\Formatter();
     }
 }
