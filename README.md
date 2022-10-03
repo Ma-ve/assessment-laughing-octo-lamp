@@ -1,40 +1,47 @@
-<a href="https://supportukrainenow.org/"><img src="https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct.svg" width="100%"></a>
+# Leviy Backend Assessment
 
-------
+## Setup
 
-<p align="center">
-    <img title="Laravel Zero" height="100" src="https://raw.githubusercontent.com/laravel-zero/docs/master/images/logo/laravel-zero-readme.png" />
-</p>
+- Clone this repository
+- Run `composer install`
+- Run `php assessment-leviy schedule:create`
 
-<p align="center">
-  <a href="https://github.com/laravel-zero/framework/actions"><img src="https://img.shields.io/github/workflow/status/laravel-zero/framework/Tests.svg" alt="Build Status"></img></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/dt/laravel-zero/framework.svg" alt="Total Downloads"></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/v/laravel-zero/framework.svg?label=stable" alt="Latest Stable Version"></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/l/laravel-zero/framework.svg" alt="License"></a>
-</p>
+---
 
-<h4> <center>This is a <bold>community project</bold> and not an official Laravel one </center></h4>
+**README** below copied from https://github.com/leviy/assessment-backend
 
-Laravel Zero was created by [Nuno Maduro](https://github.com/nunomaduro) and [Owen Voke](https://github.com/owenvoke), and is a micro-framework that provides an elegant starting point for your console application. It is an **unofficial** and customized version of Laravel optimized for building command-line applications.
+---
 
-- Built on top of the [Laravel](https://laravel.com) components.
-- Optional installation of Laravel [Eloquent](https://laravel-zero.com/docs/database/), Laravel [Logging](https://laravel-zero.com/docs/logging/) and many others.
-- Supports interactive [menus](https://laravel-zero.com/docs/build-interactive-menus/) and [desktop notifications](https://laravel-zero.com/docs/send-desktop-notifications/) on Linux, Windows & MacOS.
-- Ships with a [Scheduler](https://laravel-zero.com/docs/task-scheduling/) and  a [Standalone Compiler](https://laravel-zero.com/docs/build-a-standalone-application/).
-- Integration with [Collision](https://github.com/nunomaduro/collision) - Beautiful error reporting
+## Introduction
+As preparation for the interview we ask you to create a small
+example application to gain an impression of your technical skills.
 
-------
+Use this assessment to showcase your knowledge of the language, framework,
+best practices and principles. Do take into account, however, that we need
+to be able to quickly find out how the solution works.
 
-## Documentation
+## Restrictions
+This assessment is meant to demonstrate your knowledge and thus has no timing restriction.
+You are free to use frameworks, libraries, databases etc.
+Please state these in the documentation of your application.
 
-For full documentation, visit [laravel-zero.com](https://laravel-zero.com/).
+## The assessment
+Build a small command-line application for a fictional cleaning company that determines the cleaning
+schedule of an office for the next three months.
 
-## Support the development
-**Do you like this project? Support it by donating**
+The following rules apply:
+- Vacuuming is done every Tuesday and Thursday
+- The windows are cleaned on the last working day of the month
+- The refrigerator is also cleaned on the first vacuuming day of every month
 
-- PayPal: [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66BYDWAT92N6L)
-- Patreon: [Donate](https://www.patreon.com/nunomaduro)
+The following times have been set for the various activities:
 
-## License
+| Activity              | Time       |
+| --------------------- | ---------- |
+| Vacuuming             | 21 minutes |
+| Window cleaning       | 35 minutes |
+| Refrigerator cleaning | 50 minutes |
 
-Laravel Zero is an open-source software licensed under the MIT license.
+The application must generate a CSV file containing the planning for the next three months.
+The CSV file must contain a column with the date, a column with the activities to be performed,
+and a column with the total time (in HH:MM format) required to perform the activities.
