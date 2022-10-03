@@ -4,7 +4,70 @@
 
 - Clone this repository
 - Run `composer install`
-- Run `php assessment-leviy schedule:create`
+- Run `php assessment-leviy cleaning-schedule 3` (optional: `--date=Y-m-d`)
+
+## Directory layout
+```
+/
+├─ app/
+│  ├─ CleaningSchedule/
+│  │  ├─ Activities/ # Contains all defined activities with their recurrence
+│  │  ├─ Formatters/ # Output types (implemented: csv)
+│  │  └─ Generator.php/ # Main class that takes care of aggregating activities, and parsing them
+│  └─ Commands/
+│  │  └─ Requests/ # Container class for console inputs
+│ 
+├─ tests/
+│  └─ CleaningSchedule/ # Tests for business logic of the app/CleaningSchedule classes
+```
+
+## Usage
+```
+USAGE: assessment-leviy <command> [options] [arguments]
+
+cleaning-schedule Determines the cleaning schedule for the next x months
+test              Run the application tests
+
+--
+
+$ php assessment-leviy cleaning-schedule --help
+
+Description:
+  Determines the cleaning schedule for the next x months
+
+Usage:
+  cleaning-schedule [options] [--] <months>
+
+Arguments:
+  months                 Amount of months to generate the schedule for (required)
+
+Options:
+      --format[=FORMAT]   [default: "csv (allowed values: csv)"]
+      --date[=DATE]       [default: "now"]
+
+```
+
+## Running tests && output
+
+``` 
+$ php assessment-leviy test
+
+   PASS  Tests\App\CleaningSchedule\Formatters\Csv\FormatterTest
+  ✓ format
+
+   PASS  Tests\App\CleaningSchedule\Formatters\Csv\LineTest
+  ✓ it contains one activity
+  ✓ it contains two activities
+  ✓ it has one duration
+  ✓ it has merged two durations
+  ✓ it has merged three durations
+  ✓ it outputs array property
+
+   PASS  Tests\CleaningSchedule\GeneratorTest
+  ✓ it generates successfully with data set "single month, starting at the first working day of October 2022"
+  ✓ it generates successfully with data set "single month, starting at the first day of October 2022"
+  ✓ it generates successfully with data set "single month, starting at the last (working) day of September 2022"
+```
 
 ---
 
