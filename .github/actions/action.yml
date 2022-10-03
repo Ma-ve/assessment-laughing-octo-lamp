@@ -1,0 +1,43 @@
+name: PHP & Composer (action-php-composer)
+description: Use the Composer CLI in your Github Actions.
+
+inputs:
+  php_version:
+    description: What version of PHP to use
+    default: "8.1"
+    required: false
+
+  php_extensions:
+    description: Space separated list of extensions to configure with the PHP build
+    required: false
+
+outputs:
+  full_command:
+    description: "The full command passed to docker to run"
+    value: ${{ steps.composer_run.putputs.full_command }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      shell: bash
+      run: |
+        echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v2
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock', '**/composer.json') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+    - id: environment
+      shell: bash
+      run: |
+        echo ::set-output name=php-version::$(head -1 .php-version)
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ inputs.php_version }}
+        extensions: ${{ inputs.php_extensions }}
+    - name: Install dependencies
+      shell: bash
+      run: composer install --prefer-dist --no-interaction
