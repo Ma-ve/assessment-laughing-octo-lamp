@@ -43,9 +43,19 @@ class Generator {
     private function getOccurrencesForActivities(int $months): Collection {
         $occurrences = [];
         foreach($this->getActivities() as $activity) {
-            $occurrencesInActivity = $activity->getSchedule()->getOccurrencesBefore(
+            $occurrencesInActivity = $activity->getSchedule()->getOccurrencesBetween(
+                DateTime::createFromInterface($this->dateTime),
                 $this->getDateTimeForMonths($months)
             );
+            var_dump(
+                $activity->getSchedule()->getOccurrencesBetween(
+                DateTime::createFromInterface($this->dateTime),
+                $this->getDateTimeForMonths($months)
+            ),
+                $this->dateTime
+            );
+            exit;
+
             $occurrences = array_merge($occurrences, array_map(function(DateTime $dateTime) use ($activity) {
                 return new Activities\PlannedActivity($dateTime, $activity);
             }, $occurrencesInActivity));
